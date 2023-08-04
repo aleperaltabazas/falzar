@@ -1,0 +1,55 @@
+name: falzar-commons
+version: 0.1.0.0
+github: "aleperaltabazas/falzar-commons"
+license: BSD3
+author: "Alejandro Martín Peralta Bazas"
+maintainer: "aleperaltabazas@gmail.com"
+copyright: "2023 Alejandro Martín Peralta Bazas"
+
+extra-source-files:
+  - README.md
+  - CHANGELOG.md
+
+description: Please see the README on GitHub at <https://github.com/aleperaltabazas/falzar-commons#readme>
+
+dependencies:
+  - base >= 4.7 && < 5
+  - bytestring == 0.11.4.0
+  - optparse-applicative == 0.17.1.0
+  - split == 0.2.3.5
+  - string-interpolate == 0.3.2.1
+  - text == 2.0.2
+  - text-conversions == 0.3.1.1
+  - time == 1.12.2
+  - utf8-string == 1.0.2
+
+ghc-options:
+  - -Wall
+  - -Wcompat
+  - -Widentities
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wmissing-export-lists
+  - -Wmissing-home-modules
+  - -Wpartial-fields
+  - -Wredundant-constraints
+
+default-extensions:
+  - QuasiQuotes
+  - NoImplicitPrelude
+  - DeriveGeneric
+  - OverloadedRecordDot
+
+library:
+  source-dirs: src
+
+tests:
+  falzar-commons-test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - falzar-commons
