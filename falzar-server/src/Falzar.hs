@@ -2,8 +2,9 @@
 
 module Falzar (runFalzar) where
 
-import           Control.Monad.Reader (ReaderT (runReaderT))
-import           Falzar.App           (Context)
+import           Control.Monad.Reader (MonadIO (liftIO), ReaderT (runReaderT))
+import           Data.IORef           (readIORef)
+import           Falzar.App           (Context (mappedRoutes))
 import           Web.Scotty.Reader
 import           Web.Scotty.Trans
 
@@ -18,7 +19,8 @@ runFalzar env = do
 
 listMocks :: ReaderActionM Context ()
 listMocks = do
-  return ()
+  routes <- ask >>= (liftIO . readIORef . mappedRoutes)
+  json routes
 
 createMock :: ReaderActionM Context ()
 createMock = do

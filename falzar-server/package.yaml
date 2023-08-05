@@ -20,7 +20,9 @@ extra-source-files:
 description: Please see the README on GitHub at <https://github.com/aleperaltabazas/falzar-server#readme>
 
 dependencies:
+  - aeson <= 2.1.2.1
   - base >= 4.7 && < 5
+  - bytestring <= 0.12.3
   - containers <= 0.6.7
   - falzar-commons
   - http-types <= 0.12.3

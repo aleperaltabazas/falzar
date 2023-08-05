@@ -5,6 +5,9 @@ import           Network.Wai
 import           Network.Wai.Handler.Warp (run)
 import           Web.Scotty
 import Falzar
+import Falzar.App
 
 main :: IO ()
-main = return ()
+main = do
+  ctx <- createContext
+  runFalzar ctx
