@@ -1,6 +1,10 @@
 module Main (main) where
 
-import Lib
+import           Network.HTTP.Types
+import           Network.Wai
+import           Network.Wai.Handler.Warp (run)
+import           Web.Scotty
+import Falzar
 
 main :: IO ()
-main = someFunc
+main = return ()

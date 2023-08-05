@@ -25,14 +25,30 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      Falzar
+      Falzar.App
+      Falzar.Route
+      Web.Scotty.Reader
   other-modules:
       Paths_falzar_server
   hs-source-dirs:
       src
+  default-extensions:
+      QuasiQuotes
+      DeriveGeneric
+      OverloadedRecordDot
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
       base >=4.7 && <5
+    , containers <=0.6.7
+    , falzar-commons
+    , http-types <=0.12.3
+    , mtl <=2.3.1
+    , scotty <=0.12.1
+    , text <=2.0.2
+    , transformers <=0.6.1.1
+    , wai <=3.2.3
+    , warp <=3.3.28
   default-language: Haskell2010
 
 executable falzar-server-exe
@@ -41,10 +57,23 @@ executable falzar-server-exe
       Paths_falzar_server
   hs-source-dirs:
       app
+  default-extensions:
+      QuasiQuotes
+      DeriveGeneric
+      OverloadedRecordDot
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , containers <=0.6.7
+    , falzar-commons
     , falzar-server
+    , http-types <=0.12.3
+    , mtl <=2.3.1
+    , scotty <=0.12.1
+    , text <=2.0.2
+    , transformers <=0.6.1.1
+    , wai <=3.2.3
+    , warp <=3.3.28
   default-language: Haskell2010
 
 test-suite falzar-server-test
@@ -54,8 +83,21 @@ test-suite falzar-server-test
       Paths_falzar_server
   hs-source-dirs:
       test
+  default-extensions:
+      QuasiQuotes
+      DeriveGeneric
+      OverloadedRecordDot
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , containers <=0.6.7
+    , falzar-commons
     , falzar-server
+    , http-types <=0.12.3
+    , mtl <=2.3.1
+    , scotty <=0.12.1
+    , text <=2.0.2
+    , transformers <=0.6.1.1
+    , wai <=3.2.3
+    , warp <=3.3.28
   default-language: Haskell2010
