@@ -1,1 +1,5 @@
 resolver: lts-21.1
+
+extra-deps:
+  - github: aleperaltabazas/haskell-commons
+    commit: 1.0.1

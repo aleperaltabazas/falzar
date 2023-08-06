@@ -8,22 +8,23 @@ module Falzar.Daemon.API
   ) where
 
 import           Control.Monad.Cont      (MonadIO (liftIO))
-import           Data.Aeson              (ToJSON, decode)
+import           Data.Aeson              (ToJSON, decode, encodeFile)
 import           Data.IORef              (modifyIORef, readIORef)
 import qualified Data.Map                as Map
 import           Data.Maybe.Extra        ((?:))
 import           Data.String.Conversions (fromByteStringToString,
                                           fromStringToByteString,
                                           fromTextToString)
-import           Data.String.Extra       (joinToString)
+import           Data.String.Extra       (joinToString, replace)
 import           Data.String.Interpolate (i)
 import           Falzar.API              (CreateRouteMock (..))
-import           Falzar.Daemon.Context           (Context (mappedRoutes))
+import           Falzar.Daemon.Context   (Context (dataDirectory, mappedRoutes))
 import           Falzar.Route            (Route (..))
 import           GHC.Generics            (Generic)
 import           Network.HTTP.Types      (parseMethod, renderStdMethod,
                                           status200, status400, status404)
 import           Network.Wai             (Request (pathInfo, requestMethod))
+import           System.Directory
 import qualified Web.Scotty.Reader       as Scotty
 import           Web.Scotty.Reader       (ReaderActionM, ask, json, request)
 
@@ -58,11 +59,17 @@ createMock = do
           json ErrorMessage { message = [i|error: unknown http method #{m}|] }
           Scotty.status status400
         Right m -> do
-          liftIO $ modifyIORef routes $ Map.insert route.path Route
-            { method = renderStdMethod m
-            , body = route.body
-            , status = route.status ?: 200
-            }
+          ctx <- ask
+          let r = Route
+                { method = renderStdMethod m
+                , body = route.body
+                , status = route.status ?: 200
+                }
+          liftIO $ do
+            modifyIORef routes $ Map.insert route.path r
+            let p = route.path
+            let dd = ctx.dataDirectory
+            encodeFile [i|#{dd}/#{replace '/' '+'  p}.json|] r
           Scotty.status status200
     Nothing -> do
       json ErrorMessage{ message = "error: malformed request body" }
@@ -73,7 +80,12 @@ deleteMock = do
   req <- request
   let requestPath = "/" ++ (joinToString "/" . map fromTextToString . pathInfo) req
   routes <- mappedRoutes <$> ask
-  liftIO $ modifyIORef routes (Map.delete requestPath)
+  ctx <- ask
+  liftIO $ do
+    modifyIORef routes (Map.delete requestPath)
+    let p = requestPath
+    let dd = ctx.dataDirectory
+    removeFile [i|#{dd}/#{replace '/' '_'  p}.json|]
 
 runMocks :: ReaderActionM Context ()
 runMocks = do

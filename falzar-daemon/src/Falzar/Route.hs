@@ -1,13 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards   #-}
 
 module Falzar.Route
   ( Route(..)
   )
 where
 
-import           Data.Aeson              (KeyValue ((.=)), ToJSON (toJSON),
-                                          Value, object)
-import           Data.String.Conversions (fromByteStringToString)
+import           Data.Aeson
+import           Data.String.Conversions (fromByteStringToString,
+                                          fromStringToByteString)
 import           GHC.Generics            (Generic)
 import           Network.HTTP.Types      (Method)
 
@@ -24,3 +25,10 @@ instance ToJSON Route where
     , "status" .= route.status
     , "body" .= route.body
     ]
+
+instance FromJSON Route where
+  parseJSON = withObject "route" $ \o -> do
+    method <- fromStringToByteString <$> o .: "method"
+    status <- o .: "status"
+    body   <- o .: "body"
+    return Route {..}

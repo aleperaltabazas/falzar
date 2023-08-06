@@ -6,4 +6,4 @@ packages:
 
 extra-deps:
   - github: aleperaltabazas/haskell-commons
-    commit: 1.0.0
+    commit: 1.0.1

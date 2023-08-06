@@ -9,12 +9,16 @@ module Falzar.Daemon.Context
 where
 
 import           Control.Monad.Reader  (MonadIO (liftIO), ReaderT, asks)
+import           Data.Aeson            (decodeFileStrict)
 import           Data.IORef            (IORef, modifyIORef, newIORef)
 import           Data.Map              (Map)
 import qualified Data.Map              as Map
+import           Data.Maybe            (fromJust)
+import           Data.String.Extra     (replace)
 import           Falzar.Daemon.Options (DaemonOptions (..))
 import           Falzar.Route          (Route (..))
 import           Options.Class         (Options (parseArgs))
+import           System.Directory      (listDirectory)
 
 type App = ReaderT Context IO
 
@@ -28,12 +32,23 @@ data Context
 createContext :: [String] -> IO Context
 createContext args = do
   opts <- parseArgs args :: IO DaemonOptions
-  routes <- newIORef Map.empty
+  persistedRoutes <- readRoutes opts.dataDirectory
+  routes <- newIORef $ Map.fromList persistedRoutes
   return $ Context
     { mappedRoutes = routes
     , port = opts.port
     , dataDirectory = opts.dataDirectory
     }
+  where
+    readRoutes :: FilePath -> IO [(String, Route)]
+    readRoutes dd = do
+      routePaths <- listDirectory dd
+      sequence $ do
+        r <- routePaths
+        return $ do
+          route <- (decodeFileStrict r :: IO (Maybe Route))
+          return (replace '_' '+' r, fromJust route)
+
 
 register :: String -> Route -> App ()
 register path route = do
