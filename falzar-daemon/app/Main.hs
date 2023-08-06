@@ -5,7 +5,7 @@ import           Network.Wai
 import           Network.Wai.Handler.Warp (run)
 import           Web.Scotty
 import Falzar
-import Falzar.App
+import Falzar.Daemon
 
 main :: IO ()
 main = do

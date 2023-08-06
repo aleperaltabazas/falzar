@@ -1,4 +1,4 @@
-module Falzar.App
+module Falzar.Daemon
   ( App
   , Context(..)
   , createContext
@@ -7,23 +7,21 @@ module Falzar.App
 where
 
 import           Control.Monad.Reader (MonadIO (liftIO), ReaderT, asks)
-import           Data.Aeson           (Value (Null))
 import           Data.IORef
-import           Data.Map             (Map, empty)
+import           Data.Map             (Map)
 import qualified Data.Map             as Map
 import           Falzar.Route         (Route (..))
-import           Network.HTTP.Types   (methodGet)
 
 type App = ReaderT Context IO
 
-data Context
+newtype Context
   = Context
   { mappedRoutes :: IORef (Map String Route)
   }
 
 createContext :: IO Context
 createContext = do
-  routes <- newIORef (Map.singleton "/test" Route{method = methodGet, status = 200, body = Null} :: Map String Route)
+  routes <- newIORef Map.empty
   return $ Context { mappedRoutes = routes}
 
 register :: String -> Route -> App ()

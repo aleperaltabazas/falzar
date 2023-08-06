@@ -15,7 +15,7 @@ data Route
   = Route
   { method :: Method
   , status :: Int
-  , body   :: Value
+  , body   :: Maybe Value
   } deriving (Generic)
 
 instance ToJSON Route where
