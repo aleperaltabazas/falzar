@@ -1,30 +1,17 @@
-module Falzar.Daemon
-  ( App
-  , Context(..)
-  , createContext
-  , register
-  )
-where
+{-# LANGUAGE OverloadedStrings #-}
 
-import           Control.Monad.Reader (MonadIO (liftIO), ReaderT, asks)
-import           Data.IORef
-import           Data.Map             (Map)
-import qualified Data.Map             as Map
-import           Falzar.Route         (Route (..))
+module Falzar.Daemon (runFalzarDaemon) where
 
-type App = ReaderT Context IO
+import           Control.Monad.Reader  (ReaderT (runReaderT))
+import           Falzar.Daemon.API     (createMock, deleteMock, listMocks,
+                                        runMocks)
+import           Falzar.Daemon.Context (Context (port))
+import           Web.Scotty.Reader     (delete, get, notFound, post, scottyT)
 
-newtype Context
-  = Context
-  { mappedRoutes :: IORef (Map String Route)
-  }
-
-createContext :: IO Context
-createContext = do
-  routes <- newIORef Map.empty
-  return $ Context { mappedRoutes = routes}
-
-register :: String -> Route -> App ()
-register path route = do
-  routes <- asks mappedRoutes
-  liftIO $ modifyIORef routes $ Map.insert path route
+runFalzarDaemon :: Context -> IO ()
+runFalzarDaemon ctx = do
+  scottyT ctx.port (flip runReaderT ctx) $ do
+    get "/falzar/mocks" listMocks
+    post "/falzar/mocks" createMock
+    delete "/falzar/mocks/:id" deleteMock
+    notFound runMocks

@@ -8,24 +8,24 @@ module Falzar.Daemon.API
   ) where
 
 import           Control.Monad.Cont      (MonadIO (liftIO))
-import           Data.Aeson              (FromJSON, ToJSON, Value, decode)
+import           Data.Aeson              (ToJSON, decode)
 import           Data.IORef              (modifyIORef, readIORef)
 import qualified Data.Map                as Map
-import           Data.Maybe.Extra
+import           Data.Maybe.Extra        ((?:))
 import           Data.String.Conversions (fromByteStringToString,
                                           fromStringToByteString,
                                           fromTextToString)
 import           Data.String.Extra       (joinToString)
 import           Data.String.Interpolate (i)
-import           Falzar.API
-import           Falzar.Daemon
+import           Falzar.API              (CreateRouteMock (..))
+import           Falzar.Daemon.Context           (Context (mappedRoutes))
 import           Falzar.Route            (Route (..))
-import           GHC.Generics
+import           GHC.Generics            (Generic)
 import           Network.HTTP.Types      (parseMethod, renderStdMethod,
                                           status200, status400, status404)
 import           Network.Wai             (Request (pathInfo, requestMethod))
 import qualified Web.Scotty.Reader       as Scotty
-import           Web.Scotty.Reader
+import           Web.Scotty.Reader       (ReaderActionM, ask, json, request)
 
 data NotFound
   = NotFound
