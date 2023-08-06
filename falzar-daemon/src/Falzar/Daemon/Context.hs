@@ -18,7 +18,7 @@ import           Data.String.Extra     (replace)
 import           Falzar.Daemon.Options (DaemonOptions (..))
 import           Falzar.Route          (Route (..))
 import           Options.Class         (Options (parseArgs))
-import           System.Directory      (listDirectory)
+import           System.Directory      (getCurrentDirectory, listDirectory)
 
 type App = ReaderT Context IO
 
@@ -31,6 +31,7 @@ data Context
 
 createContext :: [String] -> IO Context
 createContext args = do
+  getCurrentDirectory >>= putStrLn
   opts <- parseArgs args :: IO DaemonOptions
   persistedRoutes <- readRoutes opts.dataDirectory
   routes <- newIORef $ Map.fromList persistedRoutes
