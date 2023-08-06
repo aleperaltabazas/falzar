@@ -4,11 +4,11 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 
-name:           falzar-server
+name:           falzar-daemon
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/aleperaltabazas/falzar-server#readme>
-homepage:       https://github.com/aleperaltabazas/falzar-server#readme
-bug-reports:    https://github.com/aleperaltabazas/falzar-server/issues
+description:    Please see the README on GitHub at <https://github.com/aleperaltabazas/falzar/falzar-daemon#readme>
+homepage:       https://github.com/aleperaltabazas/falzar#readme
+bug-reports:    https://github.com/aleperaltabazas/falzar/issues
 author:         Alejandro Martín Peralta Bazas
 maintainer:     aleperaltabazas@gmail.com
 copyright:      2023 Alejandro Martín Peralta Bazas
@@ -21,7 +21,7 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/aleperaltabazas/falzar-server
+  location: https://github.com/aleperaltabazas/falzar
 
 library
   exposed-modules:
@@ -31,7 +31,7 @@ library
       Falzar.Route
       Web.Scotty.Reader
   other-modules:
-      Paths_falzar_server
+      Paths_falzar_daemon
   hs-source-dirs:
       src
   default-extensions:
@@ -55,10 +55,10 @@ library
     , warp <=3.3.28
   default-language: Haskell2010
 
-executable falzar-server-exe
+executable falzar-daemon-exe
   main-is: Main.hs
   other-modules:
-      Paths_falzar_server
+      Paths_falzar_daemon
   hs-source-dirs:
       app
   default-extensions:
@@ -72,7 +72,7 @@ executable falzar-server-exe
     , bytestring <=0.12.3
     , containers <=0.6.7
     , falzar-commons
-    , falzar-server
+    , falzar-daemon
     , http-types <=0.12.3
     , mtl <=2.3.1
     , scotty <=0.12.1
@@ -83,11 +83,11 @@ executable falzar-server-exe
     , warp <=3.3.28
   default-language: Haskell2010
 
-test-suite falzar-server-test
+test-suite falzar-daemon-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Paths_falzar_server
+      Paths_falzar_daemon
   hs-source-dirs:
       test
   default-extensions:
@@ -101,7 +101,7 @@ test-suite falzar-server-test
     , bytestring <=0.12.3
     , containers <=0.6.7
     , falzar-commons
-    , falzar-server
+    , falzar-daemon
     , http-types <=0.12.3
     , mtl <=2.3.1
     , scotty <=0.12.1

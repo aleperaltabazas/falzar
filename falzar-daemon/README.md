@@ -1,1 +1,1 @@
-# falzar-server
+# falzar-daemon

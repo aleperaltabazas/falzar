@@ -1,6 +1,6 @@
-name: falzar-server
+name: falzar-daemon
 version: 0.1.0.0
-github: "aleperaltabazas/falzar-server"
+github: "aleperaltabazas/falzar"
 license: BSD3
 author: "Alejandro Martín Peralta Bazas"
 maintainer: "aleperaltabazas@gmail.com"
@@ -17,7 +17,7 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description: Please see the README on GitHub at <https://github.com/aleperaltabazas/falzar-server#readme>
+description: Please see the README on GitHub at <https://github.com/aleperaltabazas/falzar/falzar-daemon#readme>
 
 dependencies:
   - aeson <= 2.1.2.1
@@ -54,7 +54,7 @@ library:
   source-dirs: src
 
 executables:
-  falzar-server-exe:
+  falzar-daemon-exe:
     main: Main.hs
     source-dirs: app
     ghc-options:
@@ -62,10 +62,10 @@ executables:
       - -rtsopts
       - -with-rtsopts=-N
     dependencies:
-      - falzar-server
+      - falzar-daemon
 
 tests:
-  falzar-server-test:
+  falzar-daemon-test:
     main: Spec.hs
     source-dirs: test
     ghc-options:
@@ -73,4 +73,4 @@ tests:
       - -rtsopts
       - -with-rtsopts=-N
     dependencies:
-      - falzar-server
+      - falzar-daemon

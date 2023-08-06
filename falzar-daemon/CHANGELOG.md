@@ -1,4 +1,4 @@
-# Changelog for `falzar-server`
+# Changelog for `falzar-daemon`
 
 All notable changes to this project will be documented in this file.
 
