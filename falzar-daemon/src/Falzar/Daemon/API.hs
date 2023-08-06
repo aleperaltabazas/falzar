@@ -17,6 +17,7 @@ import           Data.String.Conversions (fromByteStringToString,
                                           fromTextToString)
 import           Data.String.Extra       (joinToString)
 import           Data.String.Interpolate (i)
+import           Falzar.API
 import           Falzar.Daemon
 import           Falzar.Route            (Route (..))
 import           GHC.Generics
@@ -25,16 +26,6 @@ import           Network.HTTP.Types      (parseMethod, renderStdMethod,
 import           Network.Wai             (Request (pathInfo, requestMethod))
 import qualified Web.Scotty.Reader       as Scotty
 import           Web.Scotty.Reader
-
-data CreateRouteMock
-  = CreateRouteMock
-  { path   :: String
-  , body   :: Maybe Value
-  , method :: String
-  , status :: Maybe Int
-  } deriving (Generic)
-
-instance FromJSON CreateRouteMock
 
 data NotFound
   = NotFound

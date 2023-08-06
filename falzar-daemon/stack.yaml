@@ -3,3 +3,7 @@ resolver: lts-21.1
 packages:
   - .
   - ../falzar-commons/
+
+extra-deps:
+  - github: aleperaltabazas/haskell-commons
+    commit: 1.0.0

@@ -13,15 +13,8 @@ extra-source-files:
 description: Please see the README on GitHub at <https://github.com/aleperaltabazas/falzar-commons#readme>
 
 dependencies:
+  - aeson <= 2.1.2.1
   - base >= 4.7 && < 5
-  - bytestring == 0.11.4.0
-  - optparse-applicative == 0.17.1.0
-  - split == 0.2.3.5
-  - string-interpolate == 0.3.2.1
-  - text == 2.0.2
-  - text-conversions == 0.3.1.1
-  - time == 1.12.2
-  - utf8-string == 1.0.2
 
 ghc-options:
   - -Wall

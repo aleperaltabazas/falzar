@@ -25,6 +25,7 @@ dependencies:
   - bytestring <= 0.12.3
   - containers <= 0.6.7
   - falzar-commons
+  - haskell-commons
   - http-types <= 0.12.3
   - mtl <= 2.3.1
   - scotty <= 0.12.1

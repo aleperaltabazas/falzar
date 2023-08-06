@@ -25,16 +25,7 @@ source-repository head
 
 library
   exposed-modules:
-      Control.Monad.Extra
-      Data.Bool.Extra
-      Data.Either.Extra
-      Data.List.Extra
-      Data.Maybe.Extra
-      Data.String.Conversions
-      Data.String.Extra
-      Data.Time.Extra
-      Data.Tuple.Extra
-      Options.Class
+      Falzar.API
   other-modules:
       Paths_falzar_commons
   hs-source-dirs:
@@ -46,15 +37,8 @@ library
       OverloadedRecordDot
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
-      base >=4.7 && <5
-    , bytestring ==0.11.4.0
-    , optparse-applicative ==0.17.1.0
-    , split ==0.2.3.5
-    , string-interpolate ==0.3.2.1
-    , text ==2.0.2
-    , text-conversions ==0.3.1.1
-    , time ==1.12.2
-    , utf8-string ==1.0.2
+      aeson <=2.1.2.1
+    , base >=4.7 && <5
   default-language: Haskell2010
 
 test-suite falzar-commons-test
@@ -71,14 +55,7 @@ test-suite falzar-commons-test
       OverloadedRecordDot
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
-    , bytestring ==0.11.4.0
+      aeson <=2.1.2.1
+    , base >=4.7 && <5
     , falzar-commons
-    , optparse-applicative ==0.17.1.0
-    , split ==0.2.3.5
-    , string-interpolate ==0.3.2.1
-    , text ==2.0.2
-    , text-conversions ==0.3.1.1
-    , time ==1.12.2
-    , utf8-string ==1.0.2
   default-language: Haskell2010

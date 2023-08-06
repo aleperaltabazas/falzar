@@ -45,6 +45,7 @@ library
     , bytestring <=0.12.3
     , containers <=0.6.7
     , falzar-commons
+    , haskell-commons
     , http-types <=0.12.3
     , mtl <=2.3.1
     , scotty <=0.12.1
@@ -73,6 +74,7 @@ executable falzar-daemon-exe
     , containers <=0.6.7
     , falzar-commons
     , falzar-daemon
+    , haskell-commons
     , http-types <=0.12.3
     , mtl <=2.3.1
     , scotty <=0.12.1
@@ -102,6 +104,7 @@ test-suite falzar-daemon-test
     , containers <=0.6.7
     , falzar-commons
     , falzar-daemon
+    , haskell-commons
     , http-types <=0.12.3
     , mtl <=2.3.1
     , scotty <=0.12.1
