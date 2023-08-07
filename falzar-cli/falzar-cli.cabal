@@ -38,6 +38,10 @@ library
       Paths_falzar_cli
   hs-source-dirs:
       src
+  default-extensions:
+      QuasiQuotes
+      DeriveGeneric
+      OverloadedRecordDot
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
       aeson <=2.1.2.1
@@ -60,6 +64,10 @@ executable falzar-cli-exe
       Paths_falzar_cli
   hs-source-dirs:
       app
+  default-extensions:
+      QuasiQuotes
+      DeriveGeneric
+      OverloadedRecordDot
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aeson <=2.1.2.1
@@ -84,6 +92,10 @@ test-suite falzar-cli-test
       Paths_falzar_cli
   hs-source-dirs:
       test
+  default-extensions:
+      QuasiQuotes
+      DeriveGeneric
+      OverloadedRecordDot
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aeson <=2.1.2.1

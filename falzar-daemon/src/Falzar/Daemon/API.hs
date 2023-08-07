@@ -64,6 +64,7 @@ createMock = do
                 { method = renderStdMethod m
                 , body = route.body
                 , status = route.status ?: 200
+                , path = route.path
                 }
           liftIO $ do
             modifyIORef routes $ Map.insert route.path r

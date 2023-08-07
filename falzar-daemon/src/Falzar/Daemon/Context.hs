@@ -4,7 +4,6 @@ module Falzar.Daemon.Context
   ( App
   , Context(..)
   , createContext
-  , register
   )
 where
 
@@ -17,7 +16,7 @@ import           Data.Maybe              (fromJust)
 import           Data.String.Extra       (replace)
 import           Data.String.Interpolate (i)
 import           Falzar.Daemon.Options   (DaemonOptions (..))
-import           Falzar.Route            (Route (..))
+import           Falzar.Route
 import           Options.Class           (Options (parseArgs))
 import           System.Directory        (getCurrentDirectory, listDirectory)
 
@@ -48,11 +47,5 @@ createContext args = do
       sequence $ do
         r <- routePaths
         return $ do
-          route <- (decodeFileStrict [i|#{dd}/#{r}|] :: IO (Maybe Route))
-          return (replace '+' '/' r, fromJust route)
-
-
-register :: String -> Route -> App ()
-register path route = do
-  routes <- asks mappedRoutes
-  liftIO $ modifyIORef routes $ Map.insert path route
+          route <- fromJust <$> (decodeFileStrict [i|#{dd}/#{r}|] :: IO (Maybe Route))
+          return (route.path, route)

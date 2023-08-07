@@ -44,6 +44,11 @@ ghc-options:
   - -Wpartial-fields
   - -Wredundant-constraints
 
+default-extensions:
+  - QuasiQuotes
+  - DeriveGeneric
+  - OverloadedRecordDot
+
 library:
   source-dirs: src
 
