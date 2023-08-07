@@ -7,7 +7,7 @@ import System.Environment
 
 main :: IO ()
 main = do
-  setProgramHeader "falzard - falzar mock server"
+  setProgramHeader "Customizable HTTP server mock"
   args <- getArgs
   ctx <- createContext args
   runFalzarDaemon ctx

@@ -1,6 +1,9 @@
 module Main (main) where
 
-import Lib
+import Falzar.CLI
+import Options.Class
 
 main :: IO ()
-main = someFunc
+main = do
+  setProgramHeader "Customizable HTTP server mock" 
+  runFalzarCLI

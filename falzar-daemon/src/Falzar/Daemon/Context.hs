@@ -8,17 +8,18 @@ module Falzar.Daemon.Context
   )
 where
 
-import           Control.Monad.Reader  (MonadIO (liftIO), ReaderT, asks)
-import           Data.Aeson            (decodeFileStrict)
-import           Data.IORef            (IORef, modifyIORef, newIORef)
-import           Data.Map              (Map)
-import qualified Data.Map              as Map
-import           Data.Maybe            (fromJust)
-import           Data.String.Extra     (replace)
-import           Falzar.Daemon.Options (DaemonOptions (..))
-import           Falzar.Route          (Route (..))
-import           Options.Class         (Options (parseArgs))
-import           System.Directory      (getCurrentDirectory, listDirectory)
+import           Control.Monad.Reader    (MonadIO (liftIO), ReaderT, asks)
+import           Data.Aeson              (decodeFileStrict)
+import           Data.IORef              (IORef, modifyIORef, newIORef)
+import           Data.Map                (Map)
+import qualified Data.Map                as Map
+import           Data.Maybe              (fromJust)
+import           Data.String.Extra       (replace)
+import           Data.String.Interpolate (i)
+import           Falzar.Daemon.Options   (DaemonOptions (..))
+import           Falzar.Route            (Route (..))
+import           Options.Class           (Options (parseArgs))
+import           System.Directory        (getCurrentDirectory, listDirectory)
 
 type App = ReaderT Context IO
 
@@ -47,8 +48,8 @@ createContext args = do
       sequence $ do
         r <- routePaths
         return $ do
-          route <- (decodeFileStrict r :: IO (Maybe Route))
-          return (replace '_' '+' r, fromJust route)
+          route <- (decodeFileStrict [i|#{dd}/#{r}|] :: IO (Maybe Route))
+          return (replace '+' '/' r, fromJust route)
 
 
 register :: String -> Route -> App ()

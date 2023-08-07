@@ -5,7 +5,6 @@ where
 
 import           Data.Aeson   (FromJSON, Value)
 import           GHC.Generics (Generic)
-import           Prelude
 
 data CreateRouteMock
   = CreateRouteMock

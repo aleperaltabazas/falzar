@@ -4,3 +4,6 @@ packages:
   - .
   - ../falzar-commons/
 
+extra-deps:
+  - github: aleperaltabazas/haskell-commons
+    commit: 1.0.2

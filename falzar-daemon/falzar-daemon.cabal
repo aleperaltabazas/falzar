@@ -29,7 +29,6 @@ library
       Falzar.Daemon.API
       Falzar.Daemon.Context
       Falzar.Daemon.Options
-      Falzar.Route
       Web.Scotty.Reader
   other-modules:
       Paths_falzar_daemon

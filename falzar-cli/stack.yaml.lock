@@ -3,7 +3,18 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    name: haskell-commons
+    pantry-tree:
+      sha256: f7c6db4bbe7d8971e71bba5ae25e5743ad7cb5f96461865b8e4088c24e6fd5f8
+      size: 1154
+    sha256: cb1ac94c3e9fdf66622ff70d5fd743893134b61225c9780ad86cd7974e5269b4
+    size: 6144
+    url: https://github.com/aleperaltabazas/haskell-commons/archive/1.0.2.tar.gz
+    version: 1.0.2
+  original:
+    url: https://github.com/aleperaltabazas/haskell-commons/archive/1.0.2.tar.gz
 snapshots:
 - completed:
     sha256: c4381351ba5837a6356fcc0ebeb7a61fdcaf3a085c903a6f730f56b131d5cb58
