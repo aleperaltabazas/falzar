@@ -31,6 +31,7 @@ library
       Falzar.CLI.Options.CreateMock
       Falzar.CLI.Options.DeleteMock
       Falzar.CLI.Options.ListMocks
+      Falzar.CLI.Options.Restart
       Falzar.CLI.Options.Start
       Falzar.CLI.Options.Status
       Falzar.CLI.Options.Stop

@@ -5,9 +5,13 @@ module Falzar.CLI.Options.Stop
 where
 
 import           Falzar.CLI.Context (App)
+import           Options.Class
 
 data StopDaemonOptions
   = StopDaemonOptions
 
-run :: App ()
-run = return ()
+instance Options StopDaemonOptions where
+  options = pure StopDaemonOptions
+
+run :: StopDaemonOptions -> App ()
+run _ = return ()

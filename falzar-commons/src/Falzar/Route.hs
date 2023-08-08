@@ -18,7 +18,7 @@ data Route
   , status :: Int
   , body   :: Maybe Value
   , path   :: String
-  } deriving (Generic)
+  } deriving (Generic, Show)
 
 instance ToJSON Route where
   toJSON route = object

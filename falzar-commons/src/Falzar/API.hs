@@ -3,7 +3,7 @@ module Falzar.API
   )
 where
 
-import           Data.Aeson   (FromJSON, Value)
+import           Data.Aeson   (FromJSON, ToJSON, Value)
 import           GHC.Generics (Generic)
 
 data CreateRouteMock
@@ -15,3 +15,4 @@ data CreateRouteMock
   } deriving (Generic)
 
 instance FromJSON CreateRouteMock
+instance ToJSON CreateRouteMock

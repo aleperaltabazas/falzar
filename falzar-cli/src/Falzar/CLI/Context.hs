@@ -1,6 +1,7 @@
 module Falzar.CLI.Context
   ( App
   , Context(..)
+  , createContext
   )
 where
 
@@ -13,3 +14,6 @@ data Context
   }
 
 type App = ReaderT Context IO
+
+createContext :: IO Context
+createContext = return Context{port = 3200, host = "localhost"}

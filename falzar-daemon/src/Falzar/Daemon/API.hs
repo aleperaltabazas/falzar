@@ -45,7 +45,7 @@ instance ToJSON ErrorMessage
 listMocks :: ReaderActionM Context ()
 listMocks = do
   routes <- ask >>= (liftIO . readIORef . mappedRoutes)
-  json routes
+  json . map snd . Map.toList $ routes
 
 createMock :: ReaderActionM Context ()
 createMock = do

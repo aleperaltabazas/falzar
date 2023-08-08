@@ -7,18 +7,17 @@ module Falzar.Daemon.Context
   )
 where
 
-import           Control.Monad.Reader    (MonadIO (liftIO), ReaderT, asks)
+import           Control.Monad.Reader    (ReaderT)
 import           Data.Aeson              (decodeFileStrict)
-import           Data.IORef              (IORef, modifyIORef, newIORef)
+import           Data.IORef              (IORef, newIORef)
 import           Data.Map                (Map)
 import qualified Data.Map                as Map
 import           Data.Maybe              (fromJust)
-import           Data.String.Extra       (replace)
 import           Data.String.Interpolate (i)
 import           Falzar.Daemon.Options   (DaemonOptions (..))
 import           Falzar.Route
 import           Options.Class           (Options (parseArgs))
-import           System.Directory        (getCurrentDirectory, listDirectory)
+import           System.Directory        (listDirectory)
 
 type App = ReaderT Context IO
 
@@ -31,7 +30,6 @@ data Context
 
 createContext :: [String] -> IO Context
 createContext args = do
-  getCurrentDirectory >>= putStrLn
   opts <- parseArgs args :: IO DaemonOptions
   persistedRoutes <- readRoutes opts.dataDirectory
   routes <- newIORef $ Map.fromList persistedRoutes
