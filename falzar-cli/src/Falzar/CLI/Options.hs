@@ -2,8 +2,8 @@ module Falzar.CLI.Options
   ( CliOptions(..)
   ) where
 
-import           Falzar.CLI.Options.CreateMock
 import           Falzar.CLI.Options.DeleteMock
+import           Falzar.CLI.Options.RegisterMock
 import           Falzar.CLI.Options.Start
 import           Falzar.CLI.Options.Stop
 import           Options.Applicative
@@ -11,7 +11,7 @@ import           Options.Class
 
 data CliOptions
   = ListMocksCommand
-  | CreateMockCommand CreateMockOptions
+  | RegisterMockCommand RegisterMockOptions
   | DeleteMockCommand DeleteMockOptions
   | StartDaemonCommand StartDaemonOptions
   | StopDaemonCommand StopDaemonOptions
@@ -20,7 +20,7 @@ data CliOptions
 
 listMocksCommandParser = command "ls" $ makeInfo "List active mocks" $ pure ListMocksCommand
 
-createMockCommandParser = command "mock" $ makeInfo "Create a new mock" $ CreateMockCommand <$> options
+registerMockCommandParser = command "register" $ makeInfo "Register a new mock" $ RegisterMockCommand <$> options
 
 deleteMockCommanParser = command "delete" $ makeInfo "Delete a mock" $ DeleteMockCommand <$> options
 
@@ -35,7 +35,7 @@ daemonStatusCommandParser = command "status" $ makeInfo "Display the falzar daem
 instance Options CliOptions where
   options = subparser $
     listMocksCommandParser
-      <> createMockCommandParser
+      <> registerMockCommandParser
       <> deleteMockCommanParser
       <> startDaemonCommandParser
       <> stopDaemonCommandParser
