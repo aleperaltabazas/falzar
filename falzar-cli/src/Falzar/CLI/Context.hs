@@ -1,3 +1,5 @@
+{-# LANGUAGE DuplicateRecordFields #-}
+
 module Falzar.CLI.Context
   ( App
   , Context(..)
@@ -6,6 +8,7 @@ module Falzar.CLI.Context
 where
 
 import           Control.Monad.Reader (ReaderT)
+import           Falzar.CLI.Config
 
 data Context
   = Context
@@ -16,4 +19,6 @@ data Context
 type App = ReaderT Context IO
 
 createContext :: IO Context
-createContext = return Context{port = 3200, host = "localhost"}
+createContext = do
+  conf <- readConfig
+  return Context { port = conf.port, host = conf.host }

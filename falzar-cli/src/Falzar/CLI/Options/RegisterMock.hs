@@ -39,7 +39,7 @@ instance Options RegisterMockOptions where
   options = do
     bodyParser <- (Literal <$> strOption (long "data" <> help "Response body for the mock" <> metavar "DATA"))
       <|> (FromFile <$> strOption (long "file" <> metavar "FILE" <> help "File where the response body is stored"))
-      <|> (NoResponseBody <$ strOption (long "no-response-body" <> help "Set response body to null"))
+      <|> flag' NoResponseBody (long "no-response-body" <> help "Set response body to null")
     status <- optional $ option auto (long "status" <> help "Response status code (default 200)" <> metavar "STATUS")
     path <- strOption (long "path" <> metavar "PATH" <> help "Service path")
     method <- strOption (long "method" <> metavar "METHOD" <> help "HTTP Method")

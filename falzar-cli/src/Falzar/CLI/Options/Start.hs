@@ -1,17 +1,26 @@
+{-# LANGUAGE ApplicativeDo   #-}
+{-# LANGUAGE RecordWildCards #-}
+
 module Falzar.CLI.Options.Start
   ( StartDaemonOptions(..)
   , run
   )
 where
 
-import           Falzar.CLI.Context (App)
+import           Control.Monad.Cont  (MonadIO (liftIO))
+import           Falzar.CLI.Context  (App)
+import           Options.Applicative
 import           Options.Class
 
-data StartDaemonOptions
+newtype StartDaemonOptions
   = StartDaemonOptions
+  { port :: Int
+  }
 
 instance Options StartDaemonOptions where
-  options = pure StartDaemonOptions
+  options = do
+    port <- option auto (long "port" <> short 'p' <> metavar "PORT" <> help "Falzar service port")
+    return StartDaemonOptions{..}
 
 run :: StartDaemonOptions -> App ()
-run _ = return ()
+run _ = liftIO $ putStrLn "Not yet implemented"

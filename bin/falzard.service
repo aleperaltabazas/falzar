@@ -5,7 +5,8 @@ After=network.target
 [Service]
 User=root
 Group=root
-ExecStart=/usr/bin/falzard --port 3200 --data /etc/falzar/data
+EnvironmentFile=/etc/falzar/config.env
+ExecStart=/usr/bin/falzard --port ${PORT} --data ${DATA}
 RestartSec=5
 
 [Install]

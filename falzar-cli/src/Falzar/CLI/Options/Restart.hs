@@ -3,7 +3,8 @@ module Falzar.CLI.Options.Restart
   )
 where
 
+import           Control.Monad.Cont (MonadIO (liftIO))
 import           Falzar.CLI.Context
 
 run :: App ()
-run = return ()
+run = liftIO $ putStrLn "Not yet implemented"

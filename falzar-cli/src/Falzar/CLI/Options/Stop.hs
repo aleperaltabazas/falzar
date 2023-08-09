@@ -4,6 +4,7 @@ module Falzar.CLI.Options.Stop
   )
 where
 
+import           Control.Monad.Cont (MonadIO (liftIO))
 import           Falzar.CLI.Context (App)
 import           Options.Class
 
@@ -14,4 +15,4 @@ instance Options StopDaemonOptions where
   options = pure StopDaemonOptions
 
 run :: StopDaemonOptions -> App ()
-run _ = return ()
+run _ = liftIO $ putStrLn "Not yet implemented"

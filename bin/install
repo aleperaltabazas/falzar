@@ -20,9 +20,15 @@ sudo systemctl stop falzard
 
 sudo cp "$daemon_exe/bin/falzard" "/usr/bin/falzard"
 sudo cp bin/falzard.service /etc/systemd/system/falzard.service
+sudo cp bin/config.env /etc/falzar/config.env
 sudo mkdir -p "/etc/falzar/data"
 
 sudo systemctl daemon-reload
 sudo systemctl start falzard
+
+mkdir -p $HOME/.local/share/falzar
+mkdir -p $HOME/.config/falzar
+
+cp bin/config.yaml $HOME/.config/falzar.yaml
 
 cp "$cli_exe/bin/falzar" "$HOME/.local/bin/falzar"
