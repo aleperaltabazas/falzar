@@ -12,8 +12,7 @@ import           Data.Aeson              (ToJSON, decode, encodeFile)
 import           Data.IORef              (modifyIORef, readIORef)
 import qualified Data.Map                as Map
 import           Data.Maybe.Extra        ((?:))
-import           Data.String.Conversions (fromByteStringToString,
-                                          fromStringToByteString,
+import           Data.String.Conversions (fromStringToByteString,
                                           fromTextToString)
 import           Data.String.Extra       (joinToString, replace)
 import           Data.String.Interpolate (i)
@@ -24,7 +23,7 @@ import           GHC.Generics            (Generic)
 import           Network.HTTP.Types      (parseMethod, renderStdMethod,
                                           status200, status400, status404)
 import           Network.Wai             (Request (pathInfo, requestMethod))
-import           System.Directory
+import           System.Directory        (removeFile)
 import qualified Web.Scotty.Reader       as Scotty
 import           Web.Scotty.Reader       (ReaderActionM, ask, json, request)
 
@@ -96,6 +95,8 @@ runMocks = do
   let route = Map.lookup requestPath routes
   case route of
     Nothing -> do
-      json $ NotFound{method = fromByteStringToString (requestMethod req), path =  requestPath}
+      json ErrorMessage { message = [i|error: route #{requestPath} with method #{requestMethod req} is not registered|] }
       Scotty.status status404
-    Just r -> json r.body
+    Just r -> do
+      Scotty.status status200
+      json r.body

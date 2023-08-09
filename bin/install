@@ -1,0 +1,28 @@
+#!/bin/bash
+
+stackPath() {
+  dir="$1"
+  (cd "$dir" && echo $(stack path --local-install-root))
+}
+
+stackBuild() {
+  dir="$1"
+  (cd "$dir" && stack build)
+}
+
+stackBuild "falzar-cli"
+stackBuild "falzar-daemon"
+
+cli_exe=$(stackPath "falzar-cli")
+daemon_exe=$(stackPath "falzar-daemon")
+
+sudo systemctl stop falzard
+
+sudo cp "$daemon_exe/bin/falzard" "/usr/bin/falzard"
+sudo cp bin/falzard.service /etc/systemd/system/falzard.service
+sudo mkdir -p "/etc/falzar/data"
+
+sudo systemctl daemon-reload
+sudo systemctl start falzard
+
+cp "$cli_exe/bin/falzar" "$HOME/.local/bin/falzar"

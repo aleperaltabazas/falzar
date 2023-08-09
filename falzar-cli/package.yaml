@@ -53,7 +53,7 @@ library:
   source-dirs: src
 
 executables:
-  falzar-cli-exe:
+  falzar:
     main: Main.hs
     source-dirs: app
     ghc-options:
