@@ -8,24 +8,26 @@ module Falzar.Daemon.API
   ) where
 
 import           Control.Monad.Cont      (MonadIO (liftIO))
-import           Data.Aeson              (ToJSON, decode, encodeFile)
+import           Data.Aeson              (ToJSON, encodeFile)
 import           Data.IORef              (modifyIORef, readIORef)
-import qualified Data.Map                as Map
+import           Data.List               (find)
+import qualified Data.List               as List
 import           Data.Maybe.Extra        ((?:))
-import           Data.String.Conversions (fromStringToByteString,
-                                          fromTextToString)
-import           Data.String.Extra       (joinToString, replace)
+import           Data.String.Conversions (fromByteStringToString,
+                                          fromStringToByteString)
+import           Data.String.Extra       (replace)
 import           Data.String.Interpolate (i)
-import           Falzar.API              (CreateRouteMock (..))
+import           Falzar.API              (CreateRouteMock (..), DeleteMock (..))
 import           Falzar.Daemon.Context   (Context (dataDirectory, mappedRoutes))
 import           Falzar.Route            (Route (..))
 import           GHC.Generics            (Generic)
 import           Network.HTTP.Types      (parseMethod, renderStdMethod,
                                           status200, status400, status404)
-import           Network.Wai             (Request (pathInfo, requestMethod))
+import           Network.Wai             (Request (requestMethod))
 import           System.Directory        (removeFile)
 import qualified Web.Scotty.Reader       as Scotty
-import           Web.Scotty.Reader       (ReaderActionM, ask, json, request)
+import           Web.Scotty.Reader       (ReaderActionM, ask, json,
+                                          jsonRequestBody, request, requestPath)
 
 data NotFound
   = NotFound
@@ -44,13 +46,13 @@ instance ToJSON ErrorMessage
 listMocks :: ReaderActionM Context ()
 listMocks = do
   routes <- ask >>= (liftIO . readIORef . mappedRoutes)
-  json . map snd . Map.toList $ routes
+  json . map fst $ routes
 
 createMock :: ReaderActionM Context ()
 createMock = do
-  b <- decode <$> Scotty.body
+  b <- jsonRequestBody
   case b of
-    Just route@CreateRouteMock{} -> do
+    Right route@CreateRouteMock{} -> do
       routes <- mappedRoutes <$> ask
       case parseMethod (fromStringToByteString route.method) of
         Left _ -> do
@@ -66,37 +68,46 @@ createMock = do
                 , path = route.path
                 }
           liftIO $ do
-            modifyIORef routes $ Map.insert route.path r
             let p = route.path
             let dd = ctx.dataDirectory
-            encodeFile [i|#{dd}/#{replace '/' '+'  p}.json|] r
+            let key = [i|#{m}#{p}|]
+            modifyIORef routes $ ((r, key) :)
+            encodeFile [i|#{dd}/#{m}#{replace '/' '?'  p}.json|] r
           Scotty.status status200
-    Nothing -> do
-      json ErrorMessage{ message = "error: malformed request body" }
+    Left err -> do
+      json ErrorMessage { message = "malformed request body: " ++ err }
       Scotty.status status400
 
 deleteMock :: ReaderActionM Context ()
 deleteMock = do
-  req <- request
-  let requestPath = "/" ++ (joinToString "/" . map fromTextToString . pathInfo) req
-  routes <- mappedRoutes <$> ask
-  ctx <- ask
-  liftIO $ do
-    modifyIORef routes (Map.delete requestPath)
-    let p = requestPath
-    let dd = ctx.dataDirectory
-    removeFile [i|#{dd}/#{replace '/' '_'  p}.json|]
+  b <- jsonRequestBody :: ReaderActionM Context (Either String DeleteMock)
+  case b of
+    Left err -> do
+      json ErrorMessage { message = "malformed request body: " ++ err }
+      Scotty.status status400
+    Right delete -> do
+      routes <- mappedRoutes <$> ask
+      ctx <- ask
+      maybeRoute <- liftIO $ List.find (\(r, _) -> fromByteStringToString (r.method) == delete.method && r.path == delete.path) <$> readIORef routes
+      case maybeRoute of
+        Just r@(_, filePath) -> liftIO $ do
+          modifyIORef routes (List.delete r)
+          let dd = ctx.dataDirectory
+          removeFile [i|#{dd}/#{filePath}|]
+        Nothing -> do
+          Scotty.status status400
+          json ErrorMessage { message = delete.method ++ " " ++ delete.path ++ " mock not found"}
 
 runMocks :: ReaderActionM Context ()
 runMocks = do
   req <- request
   routes <- ask >>= (liftIO . readIORef . mappedRoutes)
-  let requestPath = "/" ++ (joinToString "/" . map fromTextToString . pathInfo) req
-  let route = Map.lookup requestPath routes
+  rp <- requestPath
+  let route = Data.List.find (\(r, _) -> r.path == rp && r.method == requestMethod req) routes
   case route of
     Nothing -> do
-      json ErrorMessage { message = [i|error: route #{requestPath} with method #{requestMethod req} is not registered|] }
+      json ErrorMessage { message = [i|error: route #{rp} with method #{requestMethod req} is not registered|] }
       Scotty.status status404
     Just r -> do
       Scotty.status status200
-      json r.body
+      json (fst r).body

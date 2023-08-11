@@ -1,5 +1,8 @@
+{-# LANGUAGE DuplicateRecordFields #-}
+
 module Falzar.API
   ( CreateRouteMock(..)
+  , DeleteMock(..)
   )
 where
 
@@ -16,3 +19,12 @@ data CreateRouteMock
 
 instance FromJSON CreateRouteMock
 instance ToJSON CreateRouteMock
+
+data DeleteMock
+  = DeleteMock
+  { path   :: String
+  , method :: String
+  } deriving (Generic)
+
+instance FromJSON DeleteMock
+instance ToJSON DeleteMock

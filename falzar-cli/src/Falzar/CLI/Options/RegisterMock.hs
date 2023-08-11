@@ -69,9 +69,6 @@ run opts = do
         _ -> liftIO $ do
           putStrLn "Failed to create mock:"
           BS.putStrLn (responseBody res)
-      return ()
-
-  return ()
   where
     parseBody :: MonadIO m => BodyParser -> m (Either String (Maybe Value))
     parseBody NoResponseBody = return $ Right $ Nothing
