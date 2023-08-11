@@ -6,7 +6,7 @@ module Falzar.CLI.Options.ListMocks
   )
 where
 
-import           Control.Monad.Cont         (MonadIO (liftIO), forM_)
+import           Control.Monad.Cont         (MonadIO (liftIO), forM_, when)
 import           Control.Monad.Trans.Reader (ask)
 import           Data.Aeson.Encode.Pretty   (encodePretty)
 import qualified Data.ByteString.Lazy.Char8 as LBS
@@ -25,5 +25,9 @@ run = do
   forM_ (responseBody res) $ \Route{..} -> liftIO $ do
     putStrLn [i|#{method} #{path}|]
     putStrLn [i|Status: #{status}|]
-    LBS.putStrLn (encodePretty body)
+    let prettyBody = encodePretty body
+    LBS.putStrLn (LBS.unlines . take 10 . LBS.lines $ prettyBody)
+    when (length (LBS.lines prettyBody) > 10) $ do
+      putStrLn "..."
+      putStrLn "(body truncated because it's too long)"
     putStrLn ""
