@@ -34,7 +34,6 @@ library
       Falzar.CLI.Options.RegisterMock
       Falzar.CLI.Options.Restart
       Falzar.CLI.Options.Start
-      Falzar.CLI.Options.Status
       Falzar.CLI.Options.Stop
   other-modules:
       Paths_falzar_cli
@@ -54,6 +53,7 @@ library
     , directory <=1.3.7.1
     , falzar-commons
     , haskell-commons
+    , http-client <=0.7.13.1
     , mtl <=2.3.1
     , optparse-applicative <=0.17.1.0
     , process <=1.6.16.0
@@ -84,6 +84,7 @@ executable falzar
     , falzar-cli
     , falzar-commons
     , haskell-commons
+    , http-client <=0.7.13.1
     , mtl <=2.3.1
     , optparse-applicative <=0.17.1.0
     , process <=1.6.16.0
@@ -115,6 +116,7 @@ test-suite falzar-cli-test
     , falzar-cli
     , falzar-commons
     , haskell-commons
+    , http-client <=0.7.13.1
     , mtl <=2.3.1
     , optparse-applicative <=0.17.1.0
     , process <=1.6.16.0

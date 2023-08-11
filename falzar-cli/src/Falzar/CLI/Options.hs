@@ -16,7 +16,6 @@ data CliOptions
   | StartDaemonCommand StartDaemonOptions
   | StopDaemonCommand StopDaemonOptions
   | RestartDaemonCommand
-  | DaemonStatusCommand
 
 listMocksCommandParser = command "ls" $ makeInfo "List active mocks" $ pure ListMocksCommand
 
@@ -30,15 +29,13 @@ stopDaemonCommandParser = command "stop" $ makeInfo "Stop the falzar daemon" $ S
 
 restartDaemomCommandParser = command "restart" $ makeInfo "Restart the falzar daemon with configuration refreshed" $ pure RestartDaemonCommand
 
-daemonStatusCommandParser = command "status" $ makeInfo "Display the falzar daemon status" $ pure RestartDaemonCommand
 
 instance Options CliOptions where
   options = subparser $
     listMocksCommandParser
       <> registerMockCommandParser
       <> deleteMockCommanParser
-      <> startDaemonCommandParser
-      <> stopDaemonCommandParser
-      <> restartDaemomCommandParser
-      <> daemonStatusCommandParser
+      -- <> startDaemonCommandParser
+      -- <> stopDaemonCommandParser
+      -- <> restartDaemomCommandParser
 

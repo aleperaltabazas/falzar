@@ -15,8 +15,8 @@ import qualified Data.List               as List
 import           Data.Maybe.Extra        ((?:))
 import           Data.String.Conversions (fromByteStringToString,
                                           fromStringToByteString)
-import           Data.String.Extra       (replace)
 import           Data.String.Interpolate (i)
+import           Data.UUID.V4            (nextRandom)
 import           Falzar.API              (CreateRouteMock (..), DeleteMock (..))
 import           Falzar.Daemon.Context   (Context (dataDirectory, mappedRoutes))
 import           Falzar.Route            (Route (..))
@@ -68,11 +68,10 @@ createMock = do
                 , path = route.path
                 }
           liftIO $ do
-            let p = route.path
             let dd = ctx.dataDirectory
-            let key = [i|#{m}#{p}|]
+            key <- show <$> nextRandom
             modifyIORef routes $ ((r, key) :)
-            encodeFile [i|#{dd}/#{m}#{replace '/' '?'  p}.json|] r
+            encodeFile [i|#{dd}/#{key}.json|] r
           Scotty.status status200
     Left err -> do
       json ErrorMessage { message = "malformed request body: " ++ err }

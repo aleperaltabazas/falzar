@@ -11,7 +11,6 @@ import qualified Falzar.CLI.Options.ListMocks    as List
 import qualified Falzar.CLI.Options.RegisterMock as Register
 import qualified Falzar.CLI.Options.Restart      as Restart
 import qualified Falzar.CLI.Options.Start        as Start
-import qualified Falzar.CLI.Options.Status       as Status
 import qualified Falzar.CLI.Options.Stop         as Stop
 
 import           Options.Class                   (Options (parseArgs))
@@ -25,5 +24,4 @@ runFalzarCLI args ctx = do
     DeleteMockCommand opts   -> Delete.run opts
     StartDaemonCommand opts  -> Start.run opts
     StopDaemonCommand opts   -> Stop.run opts
-    DaemonStatusCommand      -> Status.run
     RestartDaemonCommand     -> Restart.run
