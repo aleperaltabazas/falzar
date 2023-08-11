@@ -17,7 +17,7 @@ data CliOptions
   | StopDaemonCommand StopDaemonOptions
   | RestartDaemonCommand
 
-listMocksCommandParser = command "ls" $ makeInfo "List active mocks" $ pure ListMocksCommand
+listMocksCommandParser = command "browse" $ makeInfo "List active mocks" $ pure ListMocksCommand
 
 registerMockCommandParser = command "register" $ makeInfo "Register a new mock" $ RegisterMockCommand <$> options
 

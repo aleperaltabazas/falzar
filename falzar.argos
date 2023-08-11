@@ -1,0 +1,19 @@
+command(browse) {
+  option(long(help), short(h))
+}
+
+command(delete) {
+  option(long(path)),
+  option(long(method)),
+  option(long(help), short(h))
+}
+
+command(register) {
+  option(long(data)),
+  option(long(file), argument(files)),
+  option(long(no-response-body)),
+  option(long(method)),
+  option(long(status)),
+  option(long(path)),
+  option(long(help), short(h))
+}
