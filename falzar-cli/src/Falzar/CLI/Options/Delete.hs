@@ -2,7 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards   #-}
 
-module Falzar.CLI.Options.DeleteMock
+module Falzar.CLI.Options.Delete
   ( DeleteMockOptions(..)
   , run
   )

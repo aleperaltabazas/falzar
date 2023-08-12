@@ -1,4 +1,5 @@
 {-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE OverloadedStrings     #-}
 
 module Falzar.Daemon.API
   ( listMocks
@@ -12,10 +13,12 @@ import           Data.Aeson              (ToJSON, encodeFile)
 import           Data.IORef              (modifyIORef, readIORef)
 import           Data.List               (find)
 import qualified Data.List               as List
+import           Data.List.Extra         (startsWith)
 import           Data.Maybe.Extra        ((?:))
 import           Data.String.Conversions (fromByteStringToString,
                                           fromStringToByteString)
 import           Data.String.Interpolate (i)
+import           Data.Text.Lazy          (Text)
 import           Data.UUID.V4            (nextRandom)
 import           Falzar.API              (CreateRouteMock (..), DeleteMock (..))
 import           Falzar.Daemon.Context   (Context (dataDirectory, mappedRoutes))
@@ -46,7 +49,8 @@ instance ToJSON ErrorMessage
 listMocks :: ReaderActionM Context ()
 listMocks = do
   routes <- ask >>= (liftIO . readIORef . mappedRoutes)
-  json . map fst $ routes
+  pathFilter <- Scotty.param "path" `Scotty.rescue` (\_ -> return "")
+  json . filter (\r -> r.path `startsWith` pathFilter) . map fst $ routes
 
 createMock :: ReaderActionM Context ()
 createMock = do

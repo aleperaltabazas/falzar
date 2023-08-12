@@ -2,7 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards   #-}
 
-module Falzar.CLI.Options.RegisterMock
+module Falzar.CLI.Options.Register
   ( RegisterMockOptions(..)
   , run
   )

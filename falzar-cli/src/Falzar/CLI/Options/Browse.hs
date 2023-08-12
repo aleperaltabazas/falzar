@@ -1,8 +1,10 @@
+{-# LANGUAGE ApplicativeDo     #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards   #-}
 
-module Falzar.CLI.Options.ListMocks
+module Falzar.CLI.Options.Browse
   ( run
+  , BrowseMocksOptions(..)
   )
 where
 
@@ -17,11 +19,28 @@ import           Falzar.CLI.Context
 import           Falzar.Route
 import           Network.HTTP.Req           hiding (port)
 import qualified Network.HTTP.Req           as Req
+import           Options.Applicative
+import           Options.Class
 
-run :: App ()
-run = do
+newtype BrowseMocksOptions
+  = BrowseMocksOptions
+  { pathPrefix :: Maybe String
+  } deriving (Show, Eq)
+
+instance Options BrowseMocksOptions where
+  options = do
+    pathPrefix <- optional $ strArgument (metavar "PATH" <> help "Look for mocks with routes starting with <PATH>")
+    return BrowseMocksOptions {..}
+
+run :: BrowseMocksOptions -> App ()
+run opts = do
   ctx <- ask
-  res <- runReq defaultHttpConfig $ req GET (http (fromStringToText (ctx.host)) /: "falzar" /: "mocks") NoReqBody (jsonResponse :: Proxy (JsonResponse [Route])) (Req.port 3200)
+  res <- runReq defaultHttpConfig $
+    req
+      GET
+      (http (fromStringToText ctx.host) /: "falzar" /: "mocks")
+      NoReqBody (jsonResponse :: Proxy (JsonResponse [Route]))
+      (Req.port 3200 <> maybe mempty ("path" =:) opts.pathPrefix)
   forM_ (responseBody res) $ \Route{..} -> liftIO $ do
     putStrLn [i|#{method} #{path}|]
     putStrLn [i|Status: #{status}|]

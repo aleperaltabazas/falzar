@@ -29,9 +29,9 @@ library
       Falzar.CLI.Config
       Falzar.CLI.Context
       Falzar.CLI.Options
-      Falzar.CLI.Options.DeleteMock
-      Falzar.CLI.Options.ListMocks
-      Falzar.CLI.Options.RegisterMock
+      Falzar.CLI.Options.Browse
+      Falzar.CLI.Options.Delete
+      Falzar.CLI.Options.Register
       Falzar.CLI.Options.Restart
       Falzar.CLI.Options.Start
       Falzar.CLI.Options.Stop

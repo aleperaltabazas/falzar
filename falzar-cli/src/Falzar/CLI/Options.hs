@@ -2,22 +2,23 @@ module Falzar.CLI.Options
   ( CliOptions(..)
   ) where
 
-import           Falzar.CLI.Options.DeleteMock
-import           Falzar.CLI.Options.RegisterMock
+import           Falzar.CLI.Options.Browse
+import           Falzar.CLI.Options.Delete
+import           Falzar.CLI.Options.Register
 import           Falzar.CLI.Options.Start
 import           Falzar.CLI.Options.Stop
 import           Options.Applicative
 import           Options.Class
 
 data CliOptions
-  = ListMocksCommand
+  = BrowseMocksCommand BrowseMocksOptions
   | RegisterMockCommand RegisterMockOptions
   | DeleteMockCommand DeleteMockOptions
   | StartDaemonCommand StartDaemonOptions
   | StopDaemonCommand StopDaemonOptions
   | RestartDaemonCommand
 
-listMocksCommandParser = command "browse" $ makeInfo "List active mocks" $ pure ListMocksCommand
+listMocksCommandParser = command "browse" $ makeInfo "List active mocks" $ BrowseMocksCommand <$> options
 
 registerMockCommandParser = command "register" $ makeInfo "Register a new mock" $ RegisterMockCommand <$> options
 
