@@ -38,7 +38,7 @@ run opts = do
         { path = opts.path
         , method = opts.method
         }
-  res <- runReq defaultHttpConfig $ req DELETE (http (fromStringToText (ctx.host)) /: "falzar" /: "mocks") (ReqBodyJson createRoute) bsResponse (Req.port 3200)
+  res <- runReq defaultHttpConfig $ req DELETE (http (fromStringToText (ctx.host)) /: "falzar" /: "mocks") (ReqBodyJson createRoute) bsResponse (Req.port ctx.port)
   -- liftIO $ LBS.putStr (encodePretty $ responseBody res)
   case responseStatusCode res of
     200 -> return ()

@@ -40,7 +40,7 @@ run opts = do
       GET
       (http (fromStringToText ctx.host) /: "falzar" /: "mocks")
       NoReqBody (jsonResponse :: Proxy (JsonResponse [Route]))
-      (Req.port 3200 <> maybe mempty ("path" =:) opts.pathPrefix)
+      (Req.port ctx.port <> maybe mempty ("path" =:) opts.pathPrefix)
   forM_ (responseBody res) $ \Route{..} -> liftIO $ do
     putStrLn [i|#{method} #{path}|]
     putStrLn [i|Status: #{status}|]

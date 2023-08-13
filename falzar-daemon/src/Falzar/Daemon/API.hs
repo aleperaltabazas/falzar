@@ -18,7 +18,6 @@ import           Data.Maybe.Extra        ((?:))
 import           Data.String.Conversions (fromByteStringToString,
                                           fromStringToByteString)
 import           Data.String.Interpolate (i)
-import           Data.Text.Lazy          (Text)
 import           Data.UUID.V4            (nextRandom)
 import           Falzar.API              (CreateRouteMock (..), DeleteMock (..))
 import           Falzar.Daemon.Context   (Context (dataDirectory, mappedRoutes))

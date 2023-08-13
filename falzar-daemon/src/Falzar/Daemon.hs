@@ -16,5 +16,5 @@ runFalzarDaemon ctx = do
     get "/falzar/status" $ Scotty.status status200
     get "/falzar/mocks" listMocks
     post "/falzar/mocks" createMock
-    delete "/falzar/mocks/:id" deleteMock
+    delete "/falzar/mocks" deleteMock
     notFound runMocks

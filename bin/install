@@ -1,5 +1,16 @@
 #!/bin/bash
 
+RED='\033[0;31m'
+
+set -e
+
+if ! hash stack 2>/dev/null; then
+    echo -e "${RED}Stack installation not found"
+    echo "Please, install Stack first"
+    echo "\nhttps://docs.haskellstack.org/en/stable/#how-to-install-stack"
+    exit 1
+fi
+
 stackPath() {
   dir="$1"
   (cd "$dir" && echo $(stack path --local-install-root))
